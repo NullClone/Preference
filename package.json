@@ -1,7 +1,12 @@
 {
-  "name": "jp.null",
-  "version": "0.1.0",
+  "name": "jp.null.preference",
+  "version": "0.2.0",
   "displayName": "Preference",
   "description": "None",
-  "unity": "6000.0"
+  "unity": "6000.0",
+  "author": {
+    "name": "null",
+    "email": "unity@example.com",
+    "url": "https://www.unity3d.com"
+  }
 }
