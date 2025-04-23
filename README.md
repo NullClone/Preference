@@ -4,6 +4,10 @@ UnityのEditorを見やすくするためのツール
 現在はHierarchyとProjectWindowの見た目をカスタマイズします。
 <br>
 
+## Features
+
+- Line
+
 ## Supported Version
 
 | **Unity Version** | **Built-in** | **URP** | **HDRP** |
