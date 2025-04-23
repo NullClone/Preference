@@ -7,19 +7,25 @@ namespace Preference.Editor.Hierarchy
     {
         public static void OnGUI(int instanceID, Rect selectionRect)
         {
-            if (Event.current.type != EventType.Repaint) return;
+            if (Event.current.type == EventType.Repaint)
+            {
+                selectionRect.xMin = 32;
 
-            var t = Mathf.PingPong(selectionRect.y, 16f) / 16f;
+                if (selectionRect.Contains(Event.current.mousePosition))
+                {
+                    return;
+                }
 
-            var color = new Color(
-                EditorGUIUtility.isProSkin ? 1f : 0f,
-                EditorGUIUtility.isProSkin ? 1f : 0f,
-                EditorGUIUtility.isProSkin ? 1f : 0f,
-                EditorGUIUtility.isProSkin ? 0.033f * t : 0.05f * t);
+                var t = Mathf.PingPong(selectionRect.y, 16f) / 16f;
 
-            selectionRect.xMin = 32;
+                var color = new Color(
+                    EditorGUIUtility.isProSkin ? 1f : 0f,
+                    EditorGUIUtility.isProSkin ? 1f : 0f,
+                    EditorGUIUtility.isProSkin ? 1f : 0f,
+                    EditorGUIUtility.isProSkin ? 0.033f * t : 0.05f * t);
 
-            EditorGUI.DrawRect(selectionRect, color);
+                EditorGUI.DrawRect(selectionRect, color);
+            }
         }
     }
 }

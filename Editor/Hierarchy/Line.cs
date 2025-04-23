@@ -8,11 +8,6 @@ namespace Preference.Editor.Hierarchy
     {
         // Properties
 
-        public static Color Color { get; set; } = new(
-            EditorGUIUtility.isProSkin ? 0.35f : 0.55f,
-            EditorGUIUtility.isProSkin ? 0.35f : 0.55f,
-            EditorGUIUtility.isProSkin ? 0.35f : 0.55f);
-
         public static float Thickness { get; set; } = 1f;
 
 
@@ -40,11 +35,15 @@ namespace Preference.Editor.Hierarchy
 
             if (gameObject == null) return;
 
+            var color = new Color(
+                EditorGUIUtility.isProSkin ? 0.35f : 0.55f,
+                EditorGUIUtility.isProSkin ? 0.35f : 0.55f,
+                EditorGUIUtility.isProSkin ? 0.35f : 0.55f);
+
             var isLast = IsLastChild(gameObject.transform);
             var hasChilren = HasChilren(gameObject.transform);
 
             var depth = Mathf.RoundToInt((selectionRect.x - 60) / 14);
-
 
             // Before
 
@@ -77,7 +76,7 @@ namespace Preference.Editor.Hierarchy
                 rect.width = Thickness;
                 rect.height = (isLast && i == depth - 1) ? 8 + (Thickness / 2) : 16;
 
-                EditorGUI.DrawRect(rect, Color);
+                EditorGUI.DrawRect(rect, color);
             }
 
 
@@ -93,7 +92,7 @@ namespace Preference.Editor.Hierarchy
                 rect.y -= rect.height / 2;
                 rect.width = hasChilren ? 7 : 17;
 
-                EditorGUI.DrawRect(rect, Color);
+                EditorGUI.DrawRect(rect, color);
             }
 
 
