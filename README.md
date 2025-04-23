@@ -5,8 +5,14 @@ UnityのEditorを見やすくするためのツール
 <br>
 
 ## Features
+Hierarchy
+ - Line
+ - Zebra Striping
+ - Active Toggle
 
-- Line
+Project Window
+ - Line
+ - Zebra Striping
 
 ## Supported Version
 
