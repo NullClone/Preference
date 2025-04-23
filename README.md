@@ -1,12 +1,16 @@
 # Preference
-UnityのEditorを見やすくするためのツール
-
-現在はHierarchyとProjectWindowの見た目をカスタマイズします。
+Tools to make Unity's Editor easier to see.
 <br>
 
 ## Features
+Hierarchy
+ - Line
+ - Zebra Striping
+ - Active Toggle
 
-- Line
+Project Window
+ - Line
+ - Zebra Striping
 
 ## Supported Version
 
