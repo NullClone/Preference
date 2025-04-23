@@ -1,1 +1,2 @@
 # Preference
+UnityのEditorを見やすくするためのツール
