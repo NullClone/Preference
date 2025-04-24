@@ -3,25 +3,26 @@ using UnityEngine;
 
 namespace Preference.Editor.Project
 {
-    public sealed class Striping
+    public static class Striping
     {
         public static void OnGUI(string guid, Rect selectionRect)
         {
-            if (Event.current.type != EventType.Repaint) return;
+            if (Event.current.type == EventType.Repaint)
+            {
+                if (selectionRect.height > 16) return;
 
-            var t = 1 - (Mathf.PingPong(selectionRect.y, 16f) / 16f);
+                var t = 1 - (Mathf.PingPong(selectionRect.y, 16f) / 16f);
 
-            var color = new Color(
-                EditorGUIUtility.isProSkin ? 1f : 0f,
-                EditorGUIUtility.isProSkin ? 1f : 0f,
-                EditorGUIUtility.isProSkin ? 1f : 0f,
-                EditorGUIUtility.isProSkin ? 0.033f * t : 0.05f * t);
+                var color = new Color(
+                    EditorGUIUtility.isProSkin ? 1f : 0f,
+                    EditorGUIUtility.isProSkin ? 1f : 0f,
+                    EditorGUIUtility.isProSkin ? 1f : 0f,
+                    EditorGUIUtility.isProSkin ? 0.033f * t : 0.05f * t);
 
-            selectionRect.x += selectionRect.width;
-            selectionRect.width = selectionRect.x;
-            selectionRect.x -= selectionRect.width;
+                selectionRect.xMin = 16;
 
-            EditorGUI.DrawRect(selectionRect, color);
+                EditorGUI.DrawRect(selectionRect, color);
+            }
         }
     }
 }

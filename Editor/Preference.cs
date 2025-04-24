@@ -14,6 +14,7 @@ namespace Preference.Editor
             EditorApplication.hierarchyWindowItemOnGUI += Hierarchy.Line.OnGUI;
 
             EditorApplication.projectWindowItemOnGUI += Project.Striping.OnGUI;
+            EditorApplication.projectWindowItemOnGUI += Project.Line.OnGUI;
         }
     }
 }

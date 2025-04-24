@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Preference.Editor.Hierarchy
 {
-    public sealed class Striping
+    public static class Striping
     {
         public static void OnGUI(int instanceID, Rect selectionRect)
         {
@@ -11,10 +11,7 @@ namespace Preference.Editor.Hierarchy
             {
                 selectionRect.xMin = 32;
 
-                if (selectionRect.Contains(Event.current.mousePosition))
-                {
-                    return;
-                }
+                if (selectionRect.Contains(Event.current.mousePosition)) return;
 
                 var t = Mathf.PingPong(selectionRect.y, 16f) / 16f;
 

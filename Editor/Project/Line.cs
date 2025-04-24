@@ -1,12 +1,21 @@
+using Preference.Editor.Utilities;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-namespace Preference.Editor.Hierarchy
+namespace Preference.Editor.Project
 {
     public static class Line
     {
         // Fields
+
+        static readonly EditorWindow Window = EditorWindow.GetWindow(typeof(EditorWindow).Assembly.GetType("UnityEditor.ProjectBrowser"));
+        static readonly MethodInfo Data = typeof(EditorWindow).Assembly.GetType("UnityEditor.IMGUI.Controls.ITreeViewDataSource").GetMethod("GetItem");
+
+        static object data;
+        static bool isTwoColumns;
 
         static List<int> VerticalGaps = new List<int>();
 
@@ -17,23 +26,32 @@ namespace Preference.Editor.Hierarchy
 
         // Methods
 
-        public static void OnGUI(int instanceID, Rect selectionRect)
+        public static void OnGUI(string guid, Rect selectionRect)
         {
             if (Event.current.type == EventType.Repaint)
             {
-                var gameObject = (GameObject)EditorUtility.InstanceIDToObject(instanceID);
+                if (selectionRect.height > 16) return;
 
-                if (gameObject == null) return;
+                UpdateState();
 
-                Draw(gameObject, selectionRect);
-            }
-            else
-            {
-                IsFirstRowDrawn = false;
+                var offest = isTwoColumns ? -15 : -4;
+
+                if ((selectionRect.y + offest) % 16 == 0)
+                {
+                    var rowIndex = (int)((selectionRect.y + offest) / 16);
+
+                    if (rowIndex < 0 || data == null) return;
+
+                    var tree = (TreeViewItem)Data.Invoke(data, new object[] { rowIndex });
+
+                    if (tree == null) return;
+
+                    Draw(tree, selectionRect);
+                }
             }
         }
 
-        public static void Draw(GameObject gameObject, Rect selectionRect)
+        public static void Draw(TreeViewItem tree, Rect selectionRect)
         {
             var lineThickness = 1f;
 
@@ -42,10 +60,9 @@ namespace Preference.Editor.Hierarchy
                 EditorGUIUtility.isProSkin ? 0.35f : 0.55f,
                 EditorGUIUtility.isProSkin ? 0.35f : 0.55f);
 
-            var isLast = IsLastChild(gameObject.transform);
-            var hasChilren = HasChilren(gameObject.transform);
+            var isLast = IsLastChild(tree);
 
-            var depth = Mathf.RoundToInt((selectionRect.x - 60) / 14);
+            var depth = Mathf.RoundToInt((selectionRect.x - 16) / 14);
 
 
             // Before
@@ -54,7 +71,7 @@ namespace Preference.Editor.Hierarchy
             {
                 VerticalGaps.Clear();
 
-                var curTransform = gameObject.transform.parent;
+                var curTransform = tree.parent;
                 var curDepth = depth - 1;
 
                 while (curTransform != null && curTransform.parent != null)
@@ -75,7 +92,7 @@ namespace Preference.Editor.Hierarchy
 
                 var rect = selectionRect;
 
-                rect.x = 53 + (i * 14) - (lineThickness / 2);
+                rect.x = 9 + (i * 14) - (lineThickness / 2);
                 rect.width = lineThickness;
                 rect.height = (isLast && i == depth - 1) ? 8 + (lineThickness / 2) : 16;
 
@@ -93,7 +110,7 @@ namespace Preference.Editor.Hierarchy
                 rect.y += rect.height / 2;
                 rect.height = lineThickness;
                 rect.y -= rect.height / 2;
-                rect.width = hasChilren ? 7 : 17;
+                rect.width = tree.hasChildren ? 7 : 17;
 
                 EditorGUI.DrawRect(rect, color);
             }
@@ -116,27 +133,31 @@ namespace Preference.Editor.Hierarchy
         }
 
 
-        static bool IsLastChild(Transform transform)
+        static bool IsLastChild(TreeViewItem tree)
         {
-            if (transform != null && transform.parent != null)
+            if (tree != null && tree.parent != null)
             {
-                var index = transform.parent.childCount - 1;
-                var result = transform.parent.GetChild(index);
+                var index = tree.parent.children.Count - 1;
+                var result = tree.parent.children[index];
 
-                return result == transform;
+                return result == tree;
             }
 
             return false;
         }
 
-        static bool HasChilren(Transform transform)
+        static void UpdateState()
         {
-            if (transform != null)
-            {
-                return transform.childCount > 0;
-            }
+            var viewMode = Window.GetFieldValue("m_ViewMode");
 
-            return false;
+            isTwoColumns = (int)viewMode == 1;
+
+            var treeView = Window.GetFieldValue(isTwoColumns ? "m_FolderTree" : "m_AssetTree");
+
+            data = treeView.GetPropertyValue("data");
+
+            EditorApplication.delayCall -= UpdateState;
+            EditorApplication.delayCall += UpdateState;
         }
     }
 }
