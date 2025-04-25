@@ -8,11 +8,11 @@ namespace Preference.Editor.Hierarchy
     {
         // Fields
 
-        static List<int> VerticalGaps = new List<int>();
-
         static int PrevRowDepth;
 
         static bool IsFirstRowDrawn;
+
+        static readonly List<int> VerticalGaps = new();
 
 
         // Methods

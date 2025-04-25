@@ -7,10 +7,8 @@ namespace Preference.Editor.Project
     {
         public static void OnGUI(string guid, Rect selectionRect)
         {
-            if (Event.current.type == EventType.Repaint)
+            if (Event.current.type == EventType.Repaint && selectionRect.height == 16)
             {
-                if (selectionRect.height > 16) return;
-
                 var t = 1 - (Mathf.PingPong(selectionRect.y, 16f) / 16f);
 
                 var color = new Color(

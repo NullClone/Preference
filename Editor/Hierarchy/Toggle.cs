@@ -27,6 +27,8 @@ namespace Preference.Editor.Hierarchy
 
                 gameObject.SetActive(active);
             }
+
+            // 選択した状態で他のウィンドウに移動すると残ってしまう // todo
         }
     }
 }

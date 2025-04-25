@@ -11,34 +11,37 @@ namespace Preference.Editor.Project
     {
         // Fields
 
-        static readonly EditorWindow Window = EditorWindow.GetWindow(typeof(EditorWindow).Assembly.GetType("UnityEditor.ProjectBrowser"));
-        static readonly MethodInfo Data = typeof(EditorWindow).Assembly.GetType("UnityEditor.IMGUI.Controls.ITreeViewDataSource").GetMethod("GetItem");
-
-        static object data;
-        static bool isTwoColumns;
-
-        static List<int> VerticalGaps = new List<int>();
-
         static int PrevRowDepth;
 
         static bool IsFirstRowDrawn;
+
+        static readonly List<int> VerticalGaps = new();
+
+        static readonly Dictionary<string, FieldInfo> FieldInfoCache = new();
+
+        static readonly Dictionary<string, PropertyInfo> PropertyInfoCache = new();
+
+
+        // Properties
+
+        static readonly EditorWindow Window = EditorWindow.GetWindow(Preference.ProjectWindowType);
+
+        static readonly MethodInfo Data = Preference.TreeViewDataType.GetMethod("GetItem");
 
 
         // Methods
 
         public static void OnGUI(string guid, Rect selectionRect)
         {
-            if (Event.current.type == EventType.Repaint)
+            if (Event.current.type == EventType.Repaint && selectionRect.height == 16)
             {
-                if (selectionRect.height > 16) return;
-
                 var viewMode = Window.GetFieldValue("m_ViewMode");
 
-                isTwoColumns = (int)viewMode == 1;
+                var isTwoColumns = (int)viewMode == 1;
 
                 var treeView = Window.GetFieldValue(isTwoColumns ? "m_FolderTree" : "m_AssetTree");
 
-                data = treeView.GetPropertyValue("data");
+                var data = treeView.GetPropertyValue("data");
 
                 var offest = isTwoColumns ? -15 : -4;
 
@@ -137,16 +140,9 @@ namespace Preference.Editor.Project
             PrevRowDepth = depth;
             IsFirstRowDrawn = true;
         }
-    }
-
-    static class Field
-    {
-        static readonly Dictionary<string, FieldInfo> FieldInfoCache = new();
-
-        static readonly Dictionary<string, PropertyInfo> PropertyInfoCache = new();
 
 
-        public static object GetFieldValue(this object value, string name)
+        static object GetFieldValue(this object value, string name)
         {
             var type = value.GetType();
 
@@ -164,7 +160,7 @@ namespace Preference.Editor.Project
             return fieldInfo.GetValue(value);
         }
 
-        public static object GetPropertyValue(this object value, string name)
+        static object GetPropertyValue(this object value, string name)
         {
             var type = value.GetType();
 
