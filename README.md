@@ -10,6 +10,7 @@ Hierarchy
 
 Project Window
  - Line
+ - Hover
  - Zebra Striping
 
 ## Supported Version
@@ -18,6 +19,10 @@ Project Window
 |:-----------------:|:------------:|:-------:|:-------:|
 | **6000.0.43f1** | **〇** | **〇** | **〇** |
 | **2021.3.45f1** | **〇** | **--** | **--** |
+
+## Roadmap
+- ✔ Implementing the Hover Feature
+- Overall Editor optimizations
 
 ## Licence
 Preference copyright © 2025 Null
