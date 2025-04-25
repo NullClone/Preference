@@ -1,5 +1,5 @@
-using Preference.Editor.Utilities;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
@@ -32,7 +32,13 @@ namespace Preference.Editor.Project
             {
                 if (selectionRect.height > 16) return;
 
-                UpdateState();
+                var viewMode = Window.GetFieldValue("m_ViewMode");
+
+                isTwoColumns = (int)viewMode == 1;
+
+                var treeView = Window.GetFieldValue(isTwoColumns ? "m_FolderTree" : "m_AssetTree");
+
+                data = treeView.GetPropertyValue("data");
 
                 var offest = isTwoColumns ? -15 : -4;
 
@@ -60,7 +66,7 @@ namespace Preference.Editor.Project
                 EditorGUIUtility.isProSkin ? 0.35f : 0.55f,
                 EditorGUIUtility.isProSkin ? 0.35f : 0.55f);
 
-            var isLast = IsLastChild(tree);
+            var isLast = tree.parent?.children?.LastOrDefault() == tree;
 
             var depth = Mathf.RoundToInt((selectionRect.x - 16) / 14);
 
@@ -131,33 +137,49 @@ namespace Preference.Editor.Project
             PrevRowDepth = depth;
             IsFirstRowDrawn = true;
         }
+    }
+
+    static class Field
+    {
+        static readonly Dictionary<string, FieldInfo> FieldInfoCache = new();
+
+        static readonly Dictionary<string, PropertyInfo> PropertyInfoCache = new();
 
 
-        static bool IsLastChild(TreeViewItem tree)
+        public static object GetFieldValue(this object value, string name)
         {
-            if (tree != null && tree.parent != null)
-            {
-                var index = tree.parent.children.Count - 1;
-                var result = tree.parent.children[index];
+            var type = value.GetType();
 
-                return result == tree;
+            FieldInfo fieldInfo;
+
+            if (FieldInfoCache.TryGetValue(name, out var result))
+            {
+                fieldInfo = result;
+            }
+            else
+            {
+                fieldInfo = FieldInfoCache[name] = type.GetField(name, (BindingFlags)62);
             }
 
-            return false;
+            return fieldInfo.GetValue(value);
         }
 
-        static void UpdateState()
+        public static object GetPropertyValue(this object value, string name)
         {
-            var viewMode = Window.GetFieldValue("m_ViewMode");
+            var type = value.GetType();
 
-            isTwoColumns = (int)viewMode == 1;
+            PropertyInfo propertyInfo;
 
-            var treeView = Window.GetFieldValue(isTwoColumns ? "m_FolderTree" : "m_AssetTree");
+            if (PropertyInfoCache.TryGetValue(name, out var result))
+            {
+                propertyInfo = result;
+            }
+            else
+            {
+                propertyInfo = PropertyInfoCache[name] = type.GetProperty(name, (BindingFlags)62);
+            }
 
-            data = treeView.GetPropertyValue("data");
-
-            EditorApplication.delayCall -= UpdateState;
-            EditorApplication.delayCall += UpdateState;
+            return propertyInfo.GetValue(value);
         }
     }
 }
