@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -9,7 +10,9 @@ namespace Preference.Editor.Project
     {
         // Fields
 
-        static readonly HashSet<EditorWindow> SubscribedWindowsCache = new();
+        private static Type ProjectWindowType;
+
+        private static readonly HashSet<EditorWindow> SubscribedWindowsCache = new();
 
 
         // Methods
@@ -34,19 +37,19 @@ namespace Preference.Editor.Project
         }
 
 
-        static void Execute()
+        private static void Execute()
         {
+            ProjectWindowType ??= typeof(EditorWindow).Assembly.GetType("UnityEditor.ProjectBrowser");
+
             if (EditorWindow.mouseOverWindow == null) return;
-            if (EditorWindow.mouseOverWindow.rootVisualElement == null) return;
-            if (EditorWindow.mouseOverWindow.rootVisualElement.parent == null) return;
 
             var type = EditorWindow.mouseOverWindow.GetType();
 
-            if (type != null && type == Preference.ProjectWindowType)
+            if (type != null && type == ProjectWindowType)
             {
                 if (SubscribedWindowsCache.Contains(EditorWindow.mouseOverWindow)) return;
 
-                EditorWindow.mouseOverWindow.rootVisualElement.parent
+                EditorWindow.mouseOverWindow.rootVisualElement?.parent?
                     .RegisterCallback<MouseMoveEvent, EditorWindow>(Callback, EditorWindow.mouseOverWindow);
 
                 SubscribedWindowsCache.Add(EditorWindow.mouseOverWindow);
@@ -55,6 +58,6 @@ namespace Preference.Editor.Project
             }
         }
 
-        static void Callback(MouseMoveEvent moveEvent, EditorWindow window) => window.Repaint();
+        private static void Callback(MouseMoveEvent moveEvent, EditorWindow window) => window.Repaint();
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -11,30 +12,44 @@ namespace Preference.Editor.Project
     {
         // Fields
 
-        static int PrevRowDepth;
+        private static int PrevRowDepth;
 
-        static bool IsFirstRowDrawn;
+        private static bool IsFirstRowDrawn;
 
-        static readonly List<int> VerticalGaps = new();
+        private static readonly List<int> VerticalGaps = new();
 
-        static readonly Dictionary<string, FieldInfo> FieldInfoCache = new();
+        private static readonly Dictionary<string, FieldInfo> FieldInfoCache = new();
 
-        static readonly Dictionary<string, PropertyInfo> PropertyInfoCache = new();
+        private static readonly Dictionary<string, PropertyInfo> PropertyInfoCache = new();
 
 
         // Properties
 
-        static readonly EditorWindow Window = EditorWindow.GetWindow(Preference.ProjectWindowType);
+        private static EditorWindow Window;
 
-        static readonly MethodInfo Data = Preference.TreeViewDataType.GetMethod("GetItem");
+        private static MethodInfo Data;
+
+        private static Type ProjectWindowType;
+
+        private static Type TreeViewDataType;
 
 
         // Methods
 
         public static void OnGUI(string guid, Rect selectionRect)
         {
-            if (Event.current.type == EventType.Repaint && selectionRect.height == 16)
+            ProjectWindowType ??= typeof(EditorWindow).Assembly.GetType("UnityEditor.ProjectBrowser");
+            TreeViewDataType ??= typeof(EditorWindow).Assembly.GetType("UnityEditor.IMGUI.Controls.ITreeViewDataSource");
+
+            if (Window == null) Window = EditorWindow.GetWindow(ProjectWindowType);
+
+            if (Data == null) Data = TreeViewDataType.GetMethod("GetItem");
+
+
+            if (Event.current.type == EventType.Repaint)
             {
+                if (selectionRect.height != 16) return;
+
                 var viewMode = Window.GetFieldValue("m_ViewMode");
 
                 var isTwoColumns = (int)viewMode == 1;
@@ -57,6 +72,10 @@ namespace Preference.Editor.Project
 
                     Draw(tree, selectionRect);
                 }
+            }
+            else
+            {
+                IsFirstRowDrawn = false;
             }
         }
 
@@ -142,7 +161,7 @@ namespace Preference.Editor.Project
         }
 
 
-        static object GetFieldValue(this object value, string name)
+        private static object GetFieldValue(this object value, string name)
         {
             var type = value.GetType();
 
@@ -160,7 +179,7 @@ namespace Preference.Editor.Project
             return fieldInfo.GetValue(value);
         }
 
-        static object GetPropertyValue(this object value, string name)
+        private static object GetPropertyValue(this object value, string name)
         {
             var type = value.GetType();
 

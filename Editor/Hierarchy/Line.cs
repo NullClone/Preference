@@ -8,11 +8,11 @@ namespace Preference.Editor.Hierarchy
     {
         // Fields
 
-        static int PrevRowDepth;
+        private static int PrevRowDepth;
 
-        static bool IsFirstRowDrawn;
+        private static bool IsFirstRowDrawn;
 
-        static readonly List<int> VerticalGaps = new();
+        private static readonly List<int> VerticalGaps = new();
 
 
         // Methods
@@ -116,7 +116,7 @@ namespace Preference.Editor.Hierarchy
         }
 
 
-        static bool IsLastChild(Transform transform)
+        private static bool IsLastChild(Transform transform)
         {
             if (transform != null && transform.parent != null)
             {
@@ -129,7 +129,7 @@ namespace Preference.Editor.Hierarchy
             return false;
         }
 
-        static bool HasChilren(Transform transform)
+        private static bool HasChilren(Transform transform)
         {
             if (transform != null)
             {

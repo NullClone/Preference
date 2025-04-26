@@ -16,7 +16,7 @@ namespace Preference.Editor.Hierarchy
 
                 if (gameObject == null) return;
 
-                selectionRect.x = selectionRect.xMax - 31f;
+                selectionRect.x = 32f;
                 selectionRect.y -= 0.5f;
 
                 var active = EditorGUI.Toggle(selectionRect, gameObject.activeSelf);
@@ -27,8 +27,6 @@ namespace Preference.Editor.Hierarchy
 
                 gameObject.SetActive(active);
             }
-
-            // 選択した状態で他のウィンドウに移動すると残ってしまう // todo
         }
     }
 }
