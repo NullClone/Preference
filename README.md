@@ -1,4 +1,5 @@
-<img src="URL">
+<img src="https://github.com/user-attachments/assets/04d932d2-91ed-4b8c-ad91-93e364025cc2" width="60%" />
+<br>
 
 # Preference
 Tools to make Unity's Editor easier to see.
@@ -24,7 +25,6 @@ Project Window
 
 ## Roadmap
 - ✔ Implementing the Hover Feature
-- Overall Editor optimizations
 
 ## Licence
 Preference copyright © 2025 Null
