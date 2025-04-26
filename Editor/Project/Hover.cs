@@ -36,7 +36,15 @@ namespace Preference.Editor.Project
 
         static void Execute()
         {
+            if (Preference.ProjectWindowType == null)
+            {
+                Preference.ProjectWindowType = typeof(EditorWindow).Assembly.GetType("UnityEditor.ProjectBrowser");
+
+                Debug.LogError("Window is null");  // todo
+            }
+
             if (EditorWindow.mouseOverWindow == null) return;
+            if (EditorWindow.mouseOverWindow.rootVisualElement == null) return;
 
             if (EditorWindow.mouseOverWindow.GetType() == Preference.ProjectWindowType)
             {
