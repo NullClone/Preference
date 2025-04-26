@@ -37,6 +37,8 @@ namespace Preference.Editor.Project
         static void Execute()
         {
             if (EditorWindow.mouseOverWindow == null) return;
+            if (EditorWindow.mouseOverWindow.rootVisualElement == null) return;
+            if (EditorWindow.mouseOverWindow.rootVisualElement.parent == null) return;
 
             var type = EditorWindow.mouseOverWindow.GetType();
 
