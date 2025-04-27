@@ -16,6 +16,13 @@ Project Window
  - Hover
  - Zebra Striping
 
+## How to use
+Package Manager -> Install package from git URL...
+
+```bash
+[https://github.com/NullClone/Preference.git]
+```
+
 ## Supported Version
 
 | **Unity Version** | **Built-in** | **URP** | **HDRP** |
