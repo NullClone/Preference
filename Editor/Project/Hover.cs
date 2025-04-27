@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Preference.Editor.Project
 {
@@ -10,16 +7,34 @@ namespace Preference.Editor.Project
     {
         // Fields
 
-        private static Type ProjectWindowType;
+        private static double LastCacheUpdateTime = -3d;
 
-        private static readonly HashSet<EditorWindow> SubscribedWindowsCache = new();
+        private static EditorWindow ProjectWindow = null;
 
 
         // Methods
 
         public static void OnGUI(string guid, Rect selectionRect)
         {
-            Execute();
+            EditorApplication.update += () =>
+            {
+                if (ProjectWindow == null && EditorApplication.timeSinceStartup > LastCacheUpdateTime + 2d)
+                {
+                    LastCacheUpdateTime = EditorApplication.timeSinceStartup;
+
+                    foreach (var window in Resources.FindObjectsOfTypeAll<EditorWindow>())
+                    {
+                        if (window.GetType().Name == "ProjectBrowser")
+                        {
+                            window.wantsMouseMove = true;
+
+                            ProjectWindow = window;
+
+                            break;
+                        }
+                    }
+                }
+            };
 
             selectionRect.width += selectionRect.x;
             selectionRect.x = 0;
@@ -34,30 +49,13 @@ namespace Preference.Editor.Project
 
                 EditorGUI.DrawRect(selectionRect, color);
             }
-        }
 
-
-        private static void Execute()
-        {
-            ProjectWindowType ??= typeof(EditorWindow).Assembly.GetType("UnityEditor.ProjectBrowser");
-
-            if (EditorWindow.mouseOverWindow == null) return;
-
-            var type = EditorWindow.mouseOverWindow.GetType();
-
-            if (type != null && type == ProjectWindowType)
+            if (Event.current.type == EventType.MouseMove)
             {
-                if (SubscribedWindowsCache.Contains(EditorWindow.mouseOverWindow)) return;
+                EditorWindow.mouseOverWindow?.Repaint();
 
-                EditorWindow.mouseOverWindow.rootVisualElement?.parent?
-                    .RegisterCallback<MouseMoveEvent, EditorWindow>(Callback, EditorWindow.mouseOverWindow);
-
-                SubscribedWindowsCache.Add(EditorWindow.mouseOverWindow);
-
-                EditorWindow.mouseOverWindow.Repaint();
+                Event.current.Use();
             }
         }
-
-        private static void Callback(MouseMoveEvent moveEvent, EditorWindow window) => window.Repaint();
     }
 }
