@@ -7,17 +7,18 @@ namespace Preference.Editor.Hierarchy
     {
         public static void OnGUI(int instanceID, Rect selectionRect)
         {
-            selectionRect.x += 32f;
-            selectionRect.xMin = 0f;
+            var rect = selectionRect;
 
-            if (selectionRect.Contains(Event.current.mousePosition))
+            rect.xMin = 0;
+
+            if (rect.Contains(Event.current.mousePosition))
             {
                 var gameObject = (GameObject)EditorUtility.InstanceIDToObject(instanceID);
 
                 if (gameObject == null) return;
 
                 selectionRect.x = 32f;
-                selectionRect.y -= 0.5f;
+                selectionRect.xMax = 48f;
 
                 var active = EditorGUI.Toggle(selectionRect, gameObject.activeSelf);
 
