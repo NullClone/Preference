@@ -50,7 +50,7 @@ namespace Preference.Editor.Project
 
             if (Event.current.type == EventType.Repaint)
             {
-                if (selectionRect.height != 16) return;
+                if (selectionRect.height != 16 || selectionRect.x == 14) return;
 
                 var viewMode = Window.GetFieldValue("m_ViewMode");
 
@@ -116,7 +116,7 @@ namespace Preference.Editor.Project
 
             // Vertical            
 
-            for (int i = 0; i < depth; i++)
+            for (int i = 1; i < depth; i++)
             {
                 if (VerticalGaps.Contains(i)) continue;
 
@@ -132,7 +132,7 @@ namespace Preference.Editor.Project
 
             // Horizontal
 
-            if (depth > 0)
+            if (depth > 1)
             {
                 var rect = selectionRect;
 
