@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -29,9 +28,9 @@ namespace Preference.Editor.Project
 
         private static MethodInfo Data;
 
-        private static Type ProjectWindowType;
+        private static bool isTwoColumns;
 
-        private static Type TreeViewDataType;
+        private static object data;
 
 
         // Methods
@@ -40,25 +39,13 @@ namespace Preference.Editor.Project
         {
             if (Preference.Flag == false) return;
 
-            ProjectWindowType ??= typeof(EditorWindow).Assembly.GetType("UnityEditor.ProjectBrowser");
-            TreeViewDataType ??= typeof(EditorWindow).Assembly.GetType("UnityEditor.IMGUI.Controls.ITreeViewDataSource");
-
-            if (Window == null) Window = EditorWindow.GetWindow(ProjectWindowType);
-
-            if (Data == null) Data = TreeViewDataType.GetMethod("GetItem");
-
+            Initialize();
 
             if (Event.current.type == EventType.Repaint)
             {
-                if (selectionRect.height != 16 || selectionRect.x == 14) return;
+                if (selectionRect.x == 14 || selectionRect.height != 16) return;
 
-                var viewMode = Window.GetFieldValue("m_ViewMode");
-
-                var isTwoColumns = (int)viewMode == 1;
-
-                var treeView = Window.GetFieldValue(isTwoColumns ? "m_FolderTree" : "m_AssetTree");
-
-                var data = treeView.GetPropertyValue("data");
+                UpdateState();
 
                 var offest = isTwoColumns ? -15 : -4;
 
@@ -162,6 +149,33 @@ namespace Preference.Editor.Project
             IsFirstRowDrawn = true;
         }
 
+        public static void UpdateState()
+        {
+            var viewMode = Window.GetFieldValue("m_ViewMode");
+
+            isTwoColumns = (int)viewMode == 1;
+
+            var treeView = Window.GetFieldValue(isTwoColumns ? "m_FolderTree" : "m_AssetTree");
+
+            data = treeView.GetPropertyValue("data");
+
+            EditorApplication.delayCall -= UpdateState;
+            EditorApplication.delayCall += UpdateState;
+        }
+
+
+        private static void Initialize()
+        {
+            if (Window == null)
+            {
+                Window = EditorWindow.GetWindow(typeof(EditorWindow).Assembly.GetType("UnityEditor.ProjectBrowser"));
+            }
+
+            if (Data == null)
+            {
+                Data = typeof(EditorWindow).Assembly.GetType("UnityEditor.IMGUI.Controls.ITreeViewDataSource").GetMethod("GetItem");
+            }
+        }
 
         private static object GetFieldValue(this object value, string name)
         {

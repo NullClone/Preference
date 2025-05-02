@@ -7,10 +7,12 @@ namespace Preference.Editor.Project
     {
         public static void OnGUI(string guid, Rect selectionRect)
         {
-            if (Preference.Flag == false || selectionRect.x == 14) return;
+            if (Preference.Flag == false) return;
 
-            if (Event.current.type == EventType.Repaint && selectionRect.height == 16)
+            if (Event.current.type == EventType.Repaint)
             {
+                if (selectionRect.x == 14 || selectionRect.height != 16) return;
+
                 var t = 1 - (Mathf.PingPong(selectionRect.y, 16f) / 16f);
 
                 var color = new Color(
