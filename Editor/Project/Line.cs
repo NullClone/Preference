@@ -38,6 +38,8 @@ namespace Preference.Editor.Project
 
         public static void OnGUI(string guid, Rect selectionRect)
         {
+            if (Preference.Flag == false) return;
+
             ProjectWindowType ??= typeof(EditorWindow).Assembly.GetType("UnityEditor.ProjectBrowser");
             TreeViewDataType ??= typeof(EditorWindow).Assembly.GetType("UnityEditor.IMGUI.Controls.ITreeViewDataSource");
 

@@ -4,8 +4,17 @@ namespace Preference.Editor
 {
     public static class Preference
     {
+        // Fields
+
+        public static bool Flag = true;
+
+        public const string MenuPath = "Tools/Preference/Enable";
+
+
+        // Methods
+
         [InitializeOnLoadMethod]
-        static void Initialize()
+        private static void Initialize()
         {
             // Hierarchy
 
@@ -29,6 +38,31 @@ namespace Preference.Editor
 
             EditorApplication.projectWindowItemOnGUI -= Project.Line.OnGUI;
             EditorApplication.projectWindowItemOnGUI += Project.Line.OnGUI;
+
+
+            var value = EditorUserSettings.GetConfigValue(MenuPath);
+
+            if (string.IsNullOrEmpty(value)) return;
+
+            Flag = string.Equals(value, true.ToString(), System.StringComparison.OrdinalIgnoreCase);
+        }
+
+        [MenuItem(MenuPath)]
+        private static void IsEnable()
+        {
+            Flag = !Flag;
+
+            Menu.SetChecked(MenuPath, Flag);
+
+            EditorUserSettings.SetConfigValue(MenuPath, Flag.ToString());
+        }
+
+        [MenuItem(MenuPath, validate = true)]
+        private static bool IsEnableValidator()
+        {
+            Menu.SetChecked(MenuPath, Flag);
+
+            return true;
         }
     }
 }

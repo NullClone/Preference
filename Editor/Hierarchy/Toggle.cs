@@ -7,6 +7,8 @@ namespace Preference.Editor.Hierarchy
     {
         public static void OnGUI(int instanceID, Rect selectionRect)
         {
+            if (Preference.Flag == false) return;
+
             var rect = selectionRect;
 
             rect.xMin = 0;
