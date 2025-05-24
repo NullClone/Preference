@@ -18,8 +18,16 @@ namespace Preference.Editor.Project
         {
             if (Preference.Flag == false) return;
 
-            Execute();
+            if (selectionRect.height == 16)
+            {
+                Execute();
 
+                Draw(selectionRect);
+            }
+        }
+
+        public static void Draw(Rect selectionRect)
+        {
             selectionRect.width += selectionRect.x;
             selectionRect.x = 0;
 

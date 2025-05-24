@@ -151,6 +151,8 @@ namespace Preference.Editor.Project
 
         public static void UpdateState()
         {
+            if (Window == null) return;
+
             var viewMode = Window.GetFieldValue("m_ViewMode");
 
             isTwoColumns = (int)viewMode == 1;
