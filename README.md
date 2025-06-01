@@ -14,7 +14,7 @@ Project Window
  - Hover
  - Zebra Striping
 
-## How to use
+## Usage
 Package Manager -> Install package from git URL...
 
 ```bash
