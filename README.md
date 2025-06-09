@@ -4,7 +4,7 @@
 Tools to make Unity's Editor easier to see.
 
 ## Features
-Hierarchy
+Hierarchy Window
  - Line
  - Zebra Striping
  - Active Toggle
@@ -13,6 +13,9 @@ Project Window
  - Line
  - Hover
  - Zebra Striping
+
+ Inspector Window
+ - None
 
 ## Usage
 Package Manager -> Install package from git URL...
@@ -26,9 +29,7 @@ https://github.com/NullClone/Preference.git
 | **Unity Version** | **Built-in** | **URP** | **HDRP** |
 |:-----------------:|:------------:|:-------:|:-------:|
 | **6000.0.43f1** | **〇** | **〇** | **〇** |
-| **2021.3.45f1** | **〇** | **〇** | **〇** |
 
 ## Roadmap
-✔ Implementing the Hover Feature
-
-✔ Overall script optimizations
+- Implementing the Hover Feature ✔
+- Inspector Customization
