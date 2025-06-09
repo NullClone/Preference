@@ -11,8 +11,14 @@ namespace Preference.Editor.Project
 
             if (Event.current.type == EventType.Repaint)
             {
-                if (selectionRect.x == 14 || selectionRect.height != 16) return;
+                Draw(selectionRect);
+            }
+        }
 
+        public static void Draw(Rect selectionRect)
+        {
+            if (selectionRect.height == 16)
+            {
                 var t = 1 - (Mathf.PingPong(selectionRect.y, 16f) / 16f);
 
                 var color = new Color(

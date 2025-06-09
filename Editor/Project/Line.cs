@@ -1,3 +1,4 @@
+using Preference.Editor.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -17,10 +18,6 @@ namespace Preference.Editor.Project
 
         private static readonly List<int> VerticalGaps = new();
 
-        private static readonly Dictionary<string, FieldInfo> FieldInfoCache = new();
-
-        private static readonly Dictionary<string, PropertyInfo> PropertyInfoCache = new();
-
 
         // Properties
 
@@ -39,7 +36,19 @@ namespace Preference.Editor.Project
         {
             if (Preference.Flag == false) return;
 
-            Initialize();
+            if (Window == null)
+            {
+                var type = typeof(EditorWindow).Assembly.GetType("UnityEditor.ProjectBrowser");
+
+                Window = EditorWindow.GetWindow(type);
+            }
+
+            if (Data == null)
+            {
+                var type = typeof(EditorWindow).Assembly.GetType("UnityEditor.IMGUI.Controls.ITreeViewDataSource");
+
+                Data = type.GetMethod("GetItem");
+            }
 
             if (Event.current.type == EventType.Repaint)
             {
@@ -163,56 +172,6 @@ namespace Preference.Editor.Project
 
             EditorApplication.delayCall -= UpdateState;
             EditorApplication.delayCall += UpdateState;
-        }
-
-
-        private static void Initialize()
-        {
-            if (Window == null)
-            {
-                Window = EditorWindow.GetWindow(typeof(EditorWindow).Assembly.GetType("UnityEditor.ProjectBrowser"));
-            }
-
-            if (Data == null)
-            {
-                Data = typeof(EditorWindow).Assembly.GetType("UnityEditor.IMGUI.Controls.ITreeViewDataSource").GetMethod("GetItem");
-            }
-        }
-
-        private static object GetFieldValue(this object value, string name)
-        {
-            var type = value.GetType();
-
-            FieldInfo fieldInfo;
-
-            if (FieldInfoCache.TryGetValue(name, out var result))
-            {
-                fieldInfo = result;
-            }
-            else
-            {
-                fieldInfo = FieldInfoCache[name] = type.GetField(name, (BindingFlags)62);
-            }
-
-            return fieldInfo.GetValue(value);
-        }
-
-        private static object GetPropertyValue(this object value, string name)
-        {
-            var type = value.GetType();
-
-            PropertyInfo propertyInfo;
-
-            if (PropertyInfoCache.TryGetValue(name, out var result))
-            {
-                propertyInfo = result;
-            }
-            else
-            {
-                propertyInfo = PropertyInfoCache[name] = type.GetProperty(name, (BindingFlags)62);
-            }
-
-            return propertyInfo.GetValue(value);
         }
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -7,29 +6,25 @@ namespace Preference.Editor.Project
 {
     public static class Hover
     {
-        // Fields
+        private static EditorWindow ProjectBrowser;
 
-        private static readonly HashSet<EditorWindow> SubscribedWindowsCache = new();
-
-
-        // Methods
 
         public static void OnGUI(string guid, Rect selectionRect)
         {
             if (Preference.Flag == false) return;
 
-            if (selectionRect.height == 16)
-            {
-                Execute();
+            Execute();
 
-                Draw(selectionRect);
-            }
+            Draw(selectionRect);
         }
 
         public static void Draw(Rect selectionRect)
         {
-            selectionRect.width += selectionRect.x;
-            selectionRect.x = 0;
+            if (selectionRect.height == 16)
+            {
+                selectionRect.width += selectionRect.x;
+                selectionRect.x = 0;
+            }
 
             if (selectionRect.Contains(Event.current.mousePosition))
             {
@@ -46,22 +41,14 @@ namespace Preference.Editor.Project
 
         private static void Execute()
         {
-            var window = EditorWindow.mouseOverWindow;
-
-            if (window == null) return;
-
-            var type = window.GetType();
-
-            if (type != null && type.Name == "ProjectBrowser")
+            if (ProjectBrowser == null)
             {
-                if (SubscribedWindowsCache.Contains(window)) return;
+                var type = typeof(EditorWindow).Assembly.GetType("UnityEditor.ProjectBrowser");
 
-                window.rootVisualElement.parent.RegisterCallback<MouseMoveEvent, EditorWindow>(Callback, window);
-
-                SubscribedWindowsCache.Add(window);
-
-                window.Repaint();
+                ProjectBrowser = EditorWindow.GetWindow(type);
             }
+
+            ProjectBrowser.rootVisualElement.parent.RegisterCallback<MouseMoveEvent, EditorWindow>(Callback, ProjectBrowser);
         }
 
         private static void Callback(MouseMoveEvent moveEvent, EditorWindow window) => window.Repaint();

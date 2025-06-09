@@ -1,6 +1,6 @@
 {
   "name": "jp.null.preference",
-  "version": "0.7.18",
+  "version": "0.8.19",
   "displayName": "Preference",
   "description": "Tools to make Unity's Editor easier to see.",
   "unity": "6000.1",
