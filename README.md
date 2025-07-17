@@ -1,5 +1,4 @@
 <div align="center">
-<img width="75%" src="https://github.com/user-attachments/assets/04d932d2-91ed-4b8c-ad91-93e364025cc2">
 
 # **Preference**
 Tools to make Unity's Editor easier to see.
@@ -35,9 +34,9 @@ To install the software, follow the steps below.
 </p>
 
 3. Enter the following
-```bash
-https://github.com/NullClone/Preference.git
-```
+   ```bash
+   https://github.com/NullClone/Preference.git
+   ```
 
 ## Usage
 `Tools > Preference > Enable`
