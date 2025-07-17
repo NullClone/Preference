@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://github.com/user-attachments/assets/04d932d2-91ed-4b8c-ad91-93e364025cc2" width="75%" />
+<img width="75%" src="https://github.com/user-attachments/assets/04d932d2-91ed-4b8c-ad91-93e364025cc2">
 
 # **Preference**
 Tools to make Unity's Editor easier to see.
@@ -7,15 +7,22 @@ Tools to make Unity's Editor easier to see.
 </div>
 
 ## Features
-Hierarchy Window
- - Line
- - Zebra Striping
- - Active Toggle
 
-Project Window
- - Line
- - Hover
- - Zebra Striping
+### Hierarchy Window
+
+#### - Line
+
+#### - Zebra Striping
+
+#### - Active Toggle
+
+### Project Window
+
+#### - Line
+
+#### - Hover
+
+#### - Zebra Striping
 
 ## Install
 To install the software, follow the steps below.
@@ -24,7 +31,7 @@ To install the software, follow the steps below.
 
 2. Select `Add package from git URL...`
 <p align="center">
-  <img width="60%" src="https://user-images.githubusercontent.com/47441314/143533003-177a51fc-3d11-4784-b9d2-d343cc622841.png" alt="Package Manager">
+  <img width="50%" src="https://github.com/user-attachments/assets/ed1fc738-0412-40e8-aa84-b32b643c31cb">
 </p>
 
 3. Enter the following
