@@ -57,3 +57,4 @@ Select the one you want to enable
 
 ## Roadmap
 - [x] Implementing the Hover Feature
+- [ ] Lines disappearing midway
