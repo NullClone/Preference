@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Preference.Editor.Hierarchy
+namespace Preference.Hierarchy
 {
     public static class Toggle
     {

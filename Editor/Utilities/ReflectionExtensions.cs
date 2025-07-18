@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Preference.Editor.Utilities
+namespace Preference.Utilities
 {
     public static class ReflectionExtensions
     {

@@ -2,14 +2,14 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Preference.Editor.Project
+namespace Preference.Project
 {
     public static class Hover
     {
         private static EditorWindow ProjectBrowser;
 
 
-        public static void OnGUI(string guid, Rect selectionRect)
+        public static void OnGUI(string _, Rect selectionRect)
         {
             if (Preference.ProjectHoverFlag == false) return;
 

@@ -1,11 +1,11 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Preference.Editor.Project
+namespace Preference.Project
 {
     public static class Striping
     {
-        public static void OnGUI(string guid, Rect selectionRect)
+        public static void OnGUI(string _, Rect selectionRect)
         {
             if (Preference.ProjectStripingFlag == false) return;
 

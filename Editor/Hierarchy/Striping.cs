@@ -1,11 +1,11 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Preference.Editor.Hierarchy
+namespace Preference.Hierarchy
 {
     public static class Striping
     {
-        public static void OnGUI(int instanceID, Rect selectionRect)
+        public static void OnGUI(int _, Rect selectionRect)
         {
             if (Preference.HierarchyStripingFlag == false) return;
 

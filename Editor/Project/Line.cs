@@ -1,4 +1,4 @@
-using Preference.Editor.Utilities;
+using Preference.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-namespace Preference.Editor.Project
+namespace Preference.Project
 {
     public static class Line
     {
@@ -32,7 +32,7 @@ namespace Preference.Editor.Project
 
         // Methods
 
-        public static void OnGUI(string guid, Rect selectionRect)
+        public static void OnGUI(string _, Rect selectionRect)
         {
             if (Preference.ProjectLineFlag == false) return;
 

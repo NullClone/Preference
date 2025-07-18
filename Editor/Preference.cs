@@ -1,24 +1,24 @@
 using UnityEditor;
 
-namespace Preference.Editor
+namespace Preference
 {
     public static class Preference
     {
         // Fields
 
-        public const string HierarchyStripingMenuPath = "Tools/Preference/Hierarchy/Striping";
         public const string HierarchyLineMenuPath = "Tools/Preference/Hierarchy/Line";
-        public const string HierarchyToggleMenuPath = "Tools/Preference/Hierarchy/Toggle";
-        public const string ProjectHoverMenuPath = "Tools/Preference/Project/Hover";
-        public const string ProjectStripingMenuPath = "Tools/Preference/Project/Striping";
+        public const string HierarchyStripingMenuPath = "Tools/Preference/Hierarchy/Zebra Striping";
+        public const string HierarchyToggleMenuPath = "Tools/Preference/Hierarchy/Active Toggle";
         public const string ProjectLineMenuPath = "Tools/Preference/Project/Line";
+        public const string ProjectStripingMenuPath = "Tools/Preference/Project/Zebra Striping";
+        public const string ProjectHoverMenuPath = "Tools/Preference/Project/Mouse Hover Highlight";
 
-        public static bool HierarchyStripingFlag = true;
         public static bool HierarchyLineFlag = true;
+        public static bool HierarchyStripingFlag = true;
         public static bool HierarchyToggleFlag = true;
-        public static bool ProjectHoverFlag = true;
-        public static bool ProjectStripingFlag = true;
         public static bool ProjectLineFlag = true;
+        public static bool ProjectStripingFlag = true;
+        public static bool ProjectHoverFlag = true;
 
 
         // Methods
@@ -26,47 +26,37 @@ namespace Preference.Editor
         [InitializeOnLoadMethod]
         private static void Initialize()
         {
-            // Hierarchy
+            EditorApplication.hierarchyWindowItemOnGUI -= Hierarchy.Line.OnGUI;
+            EditorApplication.hierarchyWindowItemOnGUI += Hierarchy.Line.OnGUI;
 
             EditorApplication.hierarchyWindowItemOnGUI -= Hierarchy.Striping.OnGUI;
             EditorApplication.hierarchyWindowItemOnGUI += Hierarchy.Striping.OnGUI;
-
-            EditorApplication.hierarchyWindowItemOnGUI -= Hierarchy.Line.OnGUI;
-            EditorApplication.hierarchyWindowItemOnGUI += Hierarchy.Line.OnGUI;
 
             EditorApplication.hierarchyWindowItemOnGUI -= Hierarchy.Toggle.OnGUI;
             EditorApplication.hierarchyWindowItemOnGUI += Hierarchy.Toggle.OnGUI;
 
 
-            // ProjectWindow
-
-            EditorApplication.projectWindowItemOnGUI -= Project.Hover.OnGUI;
-            EditorApplication.projectWindowItemOnGUI += Project.Hover.OnGUI;
+            EditorApplication.projectWindowItemOnGUI -= Project.Line.OnGUI;
+            EditorApplication.projectWindowItemOnGUI += Project.Line.OnGUI;
 
             EditorApplication.projectWindowItemOnGUI -= Project.Striping.OnGUI;
             EditorApplication.projectWindowItemOnGUI += Project.Striping.OnGUI;
 
-            EditorApplication.projectWindowItemOnGUI -= Project.Line.OnGUI;
-            EditorApplication.projectWindowItemOnGUI += Project.Line.OnGUI;
+            EditorApplication.projectWindowItemOnGUI -= Project.Hover.OnGUI;
+            EditorApplication.projectWindowItemOnGUI += Project.Hover.OnGUI;
 
 
-            HierarchyStripingFlag = string.Equals(EditorUserSettings.GetConfigValue(HierarchyStripingMenuPath), true.ToString(), System.StringComparison.OrdinalIgnoreCase);
             HierarchyLineFlag = string.Equals(EditorUserSettings.GetConfigValue(HierarchyLineMenuPath), true.ToString(), System.StringComparison.OrdinalIgnoreCase);
+            HierarchyStripingFlag = string.Equals(EditorUserSettings.GetConfigValue(HierarchyStripingMenuPath), true.ToString(), System.StringComparison.OrdinalIgnoreCase);
             HierarchyToggleFlag = string.Equals(EditorUserSettings.GetConfigValue(HierarchyToggleMenuPath), true.ToString(), System.StringComparison.OrdinalIgnoreCase);
-            ProjectHoverFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectHoverMenuPath), true.ToString(), System.StringComparison.OrdinalIgnoreCase);
-            ProjectStripingFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectStripingMenuPath), true.ToString(), System.StringComparison.OrdinalIgnoreCase);
+
             ProjectLineFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectLineMenuPath), true.ToString(), System.StringComparison.OrdinalIgnoreCase);
-        }
+            ProjectStripingFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectStripingMenuPath), true.ToString(), System.StringComparison.OrdinalIgnoreCase);
+            ProjectHoverFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectHoverMenuPath), true.ToString(), System.StringComparison.OrdinalIgnoreCase);
 
-        [MenuItem(HierarchyStripingMenuPath)]
-        private static void HierarchyStriping() => SetMenuChecked(HierarchyStripingMenuPath, ref HierarchyStripingFlag);
 
-        [MenuItem(HierarchyStripingMenuPath, validate = true)]
-        private static bool HierarchyStripingValidator()
-        {
-            Menu.SetChecked(HierarchyStripingMenuPath, HierarchyStripingFlag);
-
-            return true;
+            EditorApplication.RepaintHierarchyWindow();
+            EditorApplication.RepaintProjectWindow();
         }
 
         [MenuItem(HierarchyLineMenuPath)]
@@ -76,6 +66,17 @@ namespace Preference.Editor
         private static bool HierarchyLineValidator()
         {
             Menu.SetChecked(HierarchyLineMenuPath, HierarchyLineFlag);
+
+            return true;
+        }
+
+        [MenuItem(HierarchyStripingMenuPath)]
+        private static void HierarchyStriping() => SetMenuChecked(HierarchyStripingMenuPath, ref HierarchyStripingFlag);
+
+        [MenuItem(HierarchyStripingMenuPath, validate = true)]
+        private static bool HierarchyStripingValidator()
+        {
+            Menu.SetChecked(HierarchyStripingMenuPath, HierarchyStripingFlag);
 
             return true;
         }
@@ -91,13 +92,13 @@ namespace Preference.Editor
             return true;
         }
 
-        [MenuItem(ProjectHoverMenuPath)]
-        private static void ProjectHover() => SetMenuChecked(ProjectHoverMenuPath, ref ProjectHoverFlag);
+        [MenuItem(ProjectLineMenuPath)]
+        private static void ProjectLine() => SetMenuChecked(ProjectLineMenuPath, ref ProjectLineFlag);
 
-        [MenuItem(ProjectHoverMenuPath, validate = true)]
-        private static bool ProjectHoverValidator()
+        [MenuItem(ProjectLineMenuPath, validate = true)]
+        private static bool ProjectLineValidator()
         {
-            Menu.SetChecked(ProjectHoverMenuPath, ProjectHoverFlag);
+            Menu.SetChecked(ProjectLineMenuPath, ProjectLineFlag);
 
             return true;
         }
@@ -113,13 +114,13 @@ namespace Preference.Editor
             return true;
         }
 
-        [MenuItem(ProjectLineMenuPath)]
-        private static void ProjectLine() => SetMenuChecked(ProjectLineMenuPath, ref ProjectLineFlag);
+        [MenuItem(ProjectHoverMenuPath)]
+        private static void ProjectHover() => SetMenuChecked(ProjectHoverMenuPath, ref ProjectHoverFlag);
 
-        [MenuItem(ProjectLineMenuPath, validate = true)]
-        private static bool ProjectLineValidator()
+        [MenuItem(ProjectHoverMenuPath, validate = true)]
+        private static bool ProjectHoverValidator()
         {
-            Menu.SetChecked(ProjectLineMenuPath, ProjectLineFlag);
+            Menu.SetChecked(ProjectHoverMenuPath, ProjectHoverFlag);
 
             return true;
         }
