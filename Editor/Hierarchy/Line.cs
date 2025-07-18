@@ -19,7 +19,7 @@ namespace Preference.Editor.Hierarchy
 
         public static void OnGUI(int instanceID, Rect selectionRect)
         {
-            if (Preference.Flag == false) return;
+            if (Preference.HierarchyLineFlag == false) return;
 
             if (Event.current.type == EventType.Repaint)
             {

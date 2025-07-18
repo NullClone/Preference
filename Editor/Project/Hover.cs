@@ -11,7 +11,7 @@ namespace Preference.Editor.Project
 
         public static void OnGUI(string guid, Rect selectionRect)
         {
-            if (Preference.Flag == false) return;
+            if (Preference.ProjectHoverFlag == false) return;
 
             Execute();
 

@@ -7,7 +7,7 @@ namespace Preference.Editor.Project
     {
         public static void OnGUI(string guid, Rect selectionRect)
         {
-            if (Preference.Flag == false) return;
+            if (Preference.ProjectStripingFlag == false) return;
 
             if (Event.current.type == EventType.Repaint)
             {
