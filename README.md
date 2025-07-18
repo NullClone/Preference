@@ -1,7 +1,7 @@
 <div align="center">
 
 # **Preference**
-Tools to make Unity's Editor easier to see.
+Tools to make Unity's Editor easier to see
 
 </div>
 
@@ -45,9 +45,9 @@ To install the software, follow the steps below.
    ```
 
 ## Usage
-`Tools > Preference > Enable`
+`Tools > Preference`
 
-Please enable this (Enabled by default)
+Select the one you want to enable
 
 ## Supported Version
 
