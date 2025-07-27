@@ -30,7 +30,7 @@ Tools to make Unity's Editor easier to see
 <img width="50%" src="https://github.com/user-attachments/assets/dfd16bee-ead6-4101-a331-6e34c51e96c4">
 
 ## Install
-To install the software, follow the steps below.
+Follow the steps below.
 
 1. Open the Package Manager from `Window > Package Manager`
 
