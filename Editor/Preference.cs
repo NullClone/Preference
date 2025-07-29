@@ -46,13 +46,13 @@ namespace Preference
             EditorApplication.projectWindowItemOnGUI += Project.Hover.OnGUI;
 
 
-            HierarchyLineFlag = string.Equals(EditorUserSettings.GetConfigValue(HierarchyLineMenuPath), true.ToString(), System.StringComparison.OrdinalIgnoreCase);
-            HierarchyStripingFlag = string.Equals(EditorUserSettings.GetConfigValue(HierarchyStripingMenuPath), true.ToString(), System.StringComparison.OrdinalIgnoreCase);
-            HierarchyToggleFlag = string.Equals(EditorUserSettings.GetConfigValue(HierarchyToggleMenuPath), true.ToString(), System.StringComparison.OrdinalIgnoreCase);
+            HierarchyLineFlag = string.Equals(EditorUserSettings.GetConfigValue(HierarchyLineMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
+            HierarchyStripingFlag = string.Equals(EditorUserSettings.GetConfigValue(HierarchyStripingMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
+            HierarchyToggleFlag = string.Equals(EditorUserSettings.GetConfigValue(HierarchyToggleMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
 
-            ProjectLineFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectLineMenuPath), true.ToString(), System.StringComparison.OrdinalIgnoreCase);
-            ProjectStripingFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectStripingMenuPath), true.ToString(), System.StringComparison.OrdinalIgnoreCase);
-            ProjectHoverFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectHoverMenuPath), true.ToString(), System.StringComparison.OrdinalIgnoreCase);
+            ProjectLineFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectLineMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
+            ProjectStripingFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectStripingMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
+            ProjectHoverFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectHoverMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
 
 
             EditorApplication.RepaintHierarchyWindow();
