@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEngine;
 
 namespace Preference
 {
@@ -53,6 +54,8 @@ namespace Preference
             ProjectLineFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectLineMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
             ProjectStripingFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectStripingMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
             ProjectHoverFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectHoverMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
+
+            Debug.Log(ProjectStripingFlag);
 
             EditorApplication.RepaintHierarchyWindow();
             EditorApplication.RepaintProjectWindow();
