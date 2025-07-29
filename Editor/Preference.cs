@@ -1,5 +1,4 @@
 using UnityEditor;
-using UnityEngine;
 
 namespace Preference
 {
@@ -7,19 +6,19 @@ namespace Preference
     {
         // Fields
 
-        public const string HierarchyLineMenuPath = "Tools/Preference/Hierarchy/Line";
-        public const string HierarchyStripingMenuPath = "Tools/Preference/Hierarchy/Zebra Striping";
-        public const string HierarchyToggleMenuPath = "Tools/Preference/Hierarchy/Active Toggle";
-        public const string ProjectLineMenuPath = "Tools/Preference/Project/Line";
-        public const string ProjectStripingMenuPath = "Tools/Preference/Project/Zebra Striping";
-        public const string ProjectHoverMenuPath = "Tools/Preference/Project/Mouse Hover Highlight";
-
         public static bool HierarchyLineFlag;
         public static bool HierarchyStripingFlag;
         public static bool HierarchyToggleFlag;
         public static bool ProjectLineFlag;
         public static bool ProjectStripingFlag;
         public static bool ProjectHoverFlag;
+
+        private const string HierarchyLineMenuPath = "Tools/Preference/Hierarchy/Line";
+        private const string HierarchyStripingMenuPath = "Tools/Preference/Hierarchy/Zebra Striping";
+        private const string HierarchyToggleMenuPath = "Tools/Preference/Hierarchy/Active Toggle";
+        private const string ProjectLineMenuPath = "Tools/Preference/Project/Line";
+        private const string ProjectStripingMenuPath = "Tools/Preference/Project/Zebra Striping";
+        private const string ProjectHoverMenuPath = "Tools/Preference/Project/Mouse Hover Highlight";
 
 
         // Methods
@@ -54,8 +53,6 @@ namespace Preference
             ProjectLineFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectLineMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
             ProjectStripingFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectStripingMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
             ProjectHoverFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectHoverMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
-
-            Debug.Log(HierarchyLineFlag);
 
             EditorApplication.RepaintHierarchyWindow();
             EditorApplication.RepaintProjectWindow();
