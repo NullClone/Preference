@@ -55,7 +55,7 @@ namespace Preference
             ProjectStripingFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectStripingMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
             ProjectHoverFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectHoverMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
 
-            Debug.Log(ProjectStripingFlag);
+            Debug.Log(EditorUserSettings.GetConfigValue(ProjectStripingMenuPath) + " : " + ProjectStripingFlag + " : " + false.ToString());
 
             EditorApplication.RepaintHierarchyWindow();
             EditorApplication.RepaintProjectWindow();
