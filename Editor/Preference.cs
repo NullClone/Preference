@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEngine;
 
 namespace Preference
 {
@@ -13,12 +14,12 @@ namespace Preference
         public const string ProjectStripingMenuPath = "Tools/Preference/Project/Zebra Striping";
         public const string ProjectHoverMenuPath = "Tools/Preference/Project/Mouse Hover Highlight";
 
-        public static bool HierarchyLineFlag = true;
-        public static bool HierarchyStripingFlag = true;
-        public static bool HierarchyToggleFlag = true;
-        public static bool ProjectLineFlag = true;
-        public static bool ProjectStripingFlag = true;
-        public static bool ProjectHoverFlag = true;
+        public static bool HierarchyLineFlag;
+        public static bool HierarchyStripingFlag;
+        public static bool HierarchyToggleFlag;
+        public static bool ProjectLineFlag;
+        public static bool ProjectStripingFlag;
+        public static bool ProjectHoverFlag;
 
 
         // Methods
@@ -54,6 +55,7 @@ namespace Preference
             ProjectStripingFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectStripingMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
             ProjectHoverFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectHoverMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
 
+            Debug.Log(HierarchyLineFlag);
 
             EditorApplication.RepaintHierarchyWindow();
             EditorApplication.RepaintProjectWindow();
