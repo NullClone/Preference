@@ -1,5 +1,4 @@
 using UnityEditor;
-using UnityEngine;
 
 namespace Preference
 {
@@ -7,12 +6,12 @@ namespace Preference
     {
         // Fields
 
-        public static bool HierarchyLineFlag;
-        public static bool HierarchyStripingFlag;
-        public static bool HierarchyToggleFlag;
-        public static bool ProjectLineFlag;
-        public static bool ProjectStripingFlag;
-        public static bool ProjectHoverFlag;
+        public static bool HierarchyLineFlag = true;
+        public static bool HierarchyStripingFlag = true;
+        public static bool HierarchyToggleFlag = true;
+        public static bool ProjectLineFlag = true;
+        public static bool ProjectStripingFlag = true;
+        public static bool ProjectHoverFlag = true;
 
         private const string HierarchyLineMenuPath = "Tools/Preference/Hierarchy/Line";
         private const string HierarchyStripingMenuPath = "Tools/Preference/Hierarchy/Zebra Striping";
@@ -47,15 +46,14 @@ namespace Preference
             EditorApplication.projectWindowItemOnGUI += Project.Hover.OnGUI;
 
 
-            HierarchyLineFlag = string.Equals(EditorUserSettings.GetConfigValue(HierarchyLineMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
-            HierarchyStripingFlag = string.Equals(EditorUserSettings.GetConfigValue(HierarchyStripingMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
-            HierarchyToggleFlag = string.Equals(EditorUserSettings.GetConfigValue(HierarchyToggleMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
+            InitializeMenuChecked(HierarchyLineMenuPath, ref HierarchyLineFlag);
+            InitializeMenuChecked(HierarchyStripingMenuPath, ref HierarchyStripingFlag);
+            InitializeMenuChecked(HierarchyToggleMenuPath, ref HierarchyToggleFlag);
 
-            ProjectLineFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectLineMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
-            ProjectStripingFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectStripingMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
-            ProjectHoverFlag = string.Equals(EditorUserSettings.GetConfigValue(ProjectHoverMenuPath), false.ToString(), System.StringComparison.OrdinalIgnoreCase);
+            InitializeMenuChecked(ProjectLineMenuPath, ref ProjectLineFlag);
+            InitializeMenuChecked(ProjectStripingMenuPath, ref ProjectStripingFlag);
+            InitializeMenuChecked(ProjectHoverMenuPath, ref ProjectHoverFlag);
 
-            Debug.Log(EditorUserSettings.GetConfigValue(ProjectStripingMenuPath) + " : " + ProjectStripingFlag + " : " + false.ToString());
 
             EditorApplication.RepaintHierarchyWindow();
             EditorApplication.RepaintProjectWindow();
@@ -139,6 +137,20 @@ namespace Preference
 
             EditorApplication.RepaintHierarchyWindow();
             EditorApplication.RepaintProjectWindow();
+        }
+
+        private static void InitializeMenuChecked(string menuPath, ref bool value)
+        {
+            var configValue = EditorUserSettings.GetConfigValue(menuPath);
+
+            if (string.IsNullOrEmpty(configValue))
+            {
+                Menu.SetChecked(menuPath, value);
+            }
+            else
+            {
+                value = string.Equals(configValue, true.ToString(), System.StringComparison.OrdinalIgnoreCase);
+            }
         }
     }
 }
