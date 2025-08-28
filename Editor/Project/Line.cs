@@ -36,25 +36,9 @@ namespace Preference.Project
         {
             if (Preference.ProjectLineFlag == false) return;
 
-            if (Window == null)
-            {
-                var type = typeof(EditorWindow).Assembly.GetType("UnityEditor.ProjectBrowser");
-
-                Window = EditorWindow.GetWindow(type);
-            }
-
-            if (Data == null)
-            {
-                var type = typeof(EditorWindow).Assembly.GetType("UnityEditor.IMGUI.Controls.ITreeViewDataSource");
-
-                Data = type.GetMethod("GetItem");
-            }
-
             if (Event.current.type == EventType.Repaint)
             {
                 if (selectionRect.x == 14 || selectionRect.height != 16) return;
-
-                UpdateState();
 
                 var offest = isTwoColumns ? -15 : -4;
 
@@ -64,7 +48,11 @@ namespace Preference.Project
 
                     if (rowIndex < 0 || data == null) return;
 
+#if UNITY_6000_2_OR_NEWER
+                    var tree = (TreeViewItem<int>)Data.Invoke(data, new object[] { rowIndex });
+#else
                     var tree = (TreeViewItem)Data.Invoke(data, new object[] { rowIndex });
+#endif
 
                     if (tree == null) return;
 
@@ -77,7 +65,11 @@ namespace Preference.Project
             }
         }
 
+#if UNITY_6000_2_OR_NEWER
+        public static void Draw(TreeViewItem<int> tree, Rect selectionRect)
+#else
         public static void Draw(TreeViewItem tree, Rect selectionRect)
+#endif
         {
             var lineThickness = 1f;
 
@@ -160,7 +152,23 @@ namespace Preference.Project
 
         public static void UpdateState()
         {
-            if (Window == null) return;
+            if (Window == null)
+            {
+                var type = typeof(EditorWindow).Assembly.GetType("UnityEditor.ProjectBrowser");
+
+                Window = EditorWindow.GetWindow(type);
+            }
+
+            if (Data == null)
+            {
+#if UNITY_6000_2_OR_NEWER
+                var type = typeof(EditorWindow).Assembly.GetType("UnityEditor.IMGUI.Controls.TreeViewDataSource");
+#else              
+                var type = typeof(EditorWindow).Assembly.GetType("UnityEditor.IMGUI.Controls.ITreeViewDataSource");
+#endif
+
+                Data = type.GetMethod("GetItem");
+            }
 
             var viewMode = Window.GetFieldValue("m_ViewMode");
 
@@ -169,9 +177,6 @@ namespace Preference.Project
             var treeView = Window.GetFieldValue(isTwoColumns ? "m_FolderTree" : "m_AssetTree");
 
             data = treeView.GetPropertyValue("data");
-
-            EditorApplication.delayCall -= UpdateState;
-            EditorApplication.delayCall += UpdateState;
         }
     }
 }

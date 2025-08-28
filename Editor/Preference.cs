@@ -39,6 +39,9 @@ namespace Preference
             EditorApplication.projectWindowItemOnGUI -= Project.Line.OnGUI;
             EditorApplication.projectWindowItemOnGUI += Project.Line.OnGUI;
 
+            EditorApplication.delayCall -= Project.Line.UpdateState;
+            EditorApplication.delayCall += Project.Line.UpdateState;
+
             EditorApplication.projectWindowItemOnGUI -= Project.Striping.OnGUI;
             EditorApplication.projectWindowItemOnGUI += Project.Striping.OnGUI;
 
