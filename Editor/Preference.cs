@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEngine;
 
 namespace Preference
 {
@@ -36,17 +37,14 @@ namespace Preference
             EditorApplication.hierarchyWindowItemOnGUI += Hierarchy.Toggle.OnGUI;
 
 
+            EditorApplication.projectWindowItemOnGUI -= Project.Hover.OnGUI;
+            EditorApplication.projectWindowItemOnGUI += Project.Hover.OnGUI;
+
             EditorApplication.projectWindowItemOnGUI -= Project.Line.OnGUI;
             EditorApplication.projectWindowItemOnGUI += Project.Line.OnGUI;
 
-            EditorApplication.delayCall -= Project.Line.UpdateState;
-            EditorApplication.delayCall += Project.Line.UpdateState;
-
             EditorApplication.projectWindowItemOnGUI -= Project.Striping.OnGUI;
             EditorApplication.projectWindowItemOnGUI += Project.Striping.OnGUI;
-
-            EditorApplication.projectWindowItemOnGUI -= Project.Hover.OnGUI;
-            EditorApplication.projectWindowItemOnGUI += Project.Hover.OnGUI;
 
 
             InitializeMenuChecked(HierarchyLineMenuPath, ref HierarchyLineFlag);
@@ -57,6 +55,8 @@ namespace Preference
             InitializeMenuChecked(ProjectStripingMenuPath, ref ProjectStripingFlag);
             InitializeMenuChecked(ProjectHoverMenuPath, ref ProjectHoverFlag);
 
+
+            Debug.Log("[Preference] Initialized");
 
             EditorApplication.RepaintHierarchyWindow();
             EditorApplication.RepaintProjectWindow();

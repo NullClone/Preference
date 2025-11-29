@@ -36,6 +36,18 @@ namespace Preference.Project
         {
             if (Preference.ProjectLineFlag == false) return;
 
+            if (data == null)
+            {
+                UpdateState();
+
+                if (data == null)
+                {
+                    Debug.LogWarning("[Preference] Failed to retrieve data.");
+
+                    return;
+                }
+            }
+
             if (Event.current.type == EventType.Repaint)
             {
                 if (selectionRect.x == 14 || selectionRect.height != 16) return;
@@ -46,7 +58,7 @@ namespace Preference.Project
                 {
                     var rowIndex = (int)((selectionRect.y + offest) / 16);
 
-                    if (rowIndex < 0 || data == null) return;
+                    if (rowIndex < 0) return;
 
 #if UNITY_6000_2_OR_NEWER
                     var tree = (TreeViewItem<int>)Data.Invoke(data, new object[] { rowIndex });
@@ -157,6 +169,13 @@ namespace Preference.Project
                 var type = typeof(EditorWindow).Assembly.GetType("UnityEditor.ProjectBrowser");
 
                 Window = EditorWindow.GetWindow(type);
+            }
+
+            if (Window == null)
+            {
+                Debug.LogWarning("[Preference] Failed to get Project Browser window.");
+
+                return;
             }
 
             if (Data == null)
