@@ -176,7 +176,7 @@ namespace Preference.Project
 
             var treeView = Window.GetFieldValue(isTwoColumns ? "m_FolderTree" : "m_AssetTree");
 
-            data = treeView.GetPropertyValue("data");
+            data = treeView?.GetPropertyValue("data");
         }
     }
 }
